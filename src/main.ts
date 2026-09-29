@@ -64,6 +64,12 @@ export const app = new Elysia()
         ],
         // Make Swagger UI's "Try it out" go through the APISIX gateway
         // (the service only trusts APISIX-injected X-Userinfo, not raw JWTs).
+        // AUTH MODE (env `GATEWAY_AUTH_ENABLED`):
+        //   true  (default) → APISIX validates the token and injects X-Userinfo;
+        //                     protected routes read that header.
+        //   false           → no gateway: this service verifies the raw Bearer
+        //                     token itself (Keycloak JWKS) and takes the user
+        //                     from the verified claims.
         servers: [
           {
             url: "http://localhost:9080/shareability",
